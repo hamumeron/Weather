@@ -1,49 +1,54 @@
 let delay = 15000;
-let code = "";
 
-const modal = document.getElementById("modal");
-const openModalBtn = document.getElementById("openModal");
-const closeModalBtn = document.getElementById("closeModal");
-const codeInput = document.getElementById("codeInput");
-const getWeatherBtn = document.getElementById("getWeather");
-const status = document.getElementById("status");
-const weatherDiv = document.getElementById("weather");
+window.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("modal");
+  const openModalBtn = document.getElementById("openModal");
+  const closeModalBtn = document.getElementById("closeModal");
+  const codeInput = document.getElementById("codeInput");
+  const getWeatherBtn = document.getElementById("getWeather");
+  const status = document.getElementById("status");
+  const weatherDiv = document.getElementById("weather");
 
-// モーダル開閉
-openModalBtn.onclick = () => modal.classList.remove("hidden");
-closeModalBtn.onclick = () => modal.classList.add("hidden");
+  // ✅ モーダル開く
+  openModalBtn.addEventListener("click", () => {
+    modal.classList.remove("hidden");
+    codeInput.focus();
+  });
 
-// 限定コードの監視
-codeInput.addEventListener("input", () => {
-  code = codeInput.value.trim();
-  if (code === "ultrafast") {
-    delay = 0;
-    status.innerText = "🚀 高速モードが有効になりました";
-  } else {
-    delay = 15000;
-    status.innerText = "";
-  }
-});
+  // ✅ モーダル閉じる
+  closeModalBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
 
-  // 天気を取得
+  // ✅ 限定コード入力処理
+  codeInput.addEventListener("input", () => {
+    const code = codeInput.value.trim();
+    if (code === "ultrafast") {
+      delay = 0;
+      status.innerText = "🚀 高速モードが有効になりました（即時取得）";
+    } else {
+      delay = 15000;
+      status.innerText = "";
+    }
+  });
+
+  // ✅ 天気を取得
   getWeatherBtn.addEventListener("click", () => {
     getWeatherBtn.innerText = "取得中...";
-    getWeatherBtn.disabled = true; // ボタンを一時無効化
-    status.innerText = "📍 位置情報を取得中...";
+    getWeatherBtn.disabled = true;
 
+    status.innerText = "📍 位置情報を取得中...";
     navigator.geolocation.getCurrentPosition(async (pos) => {
       status.innerText = `🌤 天気情報を${delay / 1000}秒後に取得します...`;
 
       setTimeout(async () => {
         const lat = pos.coords.latitude;
         const lon = pos.coords.longitude;
-
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=ja`;
 
         try {
           const res = await fetch(url);
           const data = await res.json();
-
           const rain = data.rain?.["1h"] || 0;
           const chance = (rain * 10).toFixed(1);
 
@@ -69,3 +74,4 @@ codeInput.addEventListener("input", () => {
       getWeatherBtn.disabled = false;
     });
   });
+});
