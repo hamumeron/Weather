@@ -1,5 +1,3 @@
-let delay = 15000; // 初期状態：15秒待機
-
 window.addEventListener("DOMContentLoaded", () => {
   const getWeatherBtn = document.getElementById("getWeather");
   const status = document.getElementById("status");
@@ -8,22 +6,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
   getWeatherBtn.addEventListener("click", () => {
     const code = codeInput.value.trim();
+    const delay = code === "ultrafast" ? 0 : 15000;
 
-    // コード判定 → delay 設定
-    if (code === "ultrafast") {
-      delay = 0;
-      status.innerText = "🚀 高速モード（即取得）で動作します";
-    } else {
-      delay = 15000;
-      status.innerText = `⏳ 通常モード（${delay / 1000}秒待機）で取得します`;
-    }
-
-    getWeatherBtn.innerText = "取得中...";
+    status.innerText = `コード: ${code || "なし"} → ${delay / 1000}秒後に取得開始`;
     getWeatherBtn.disabled = true;
+    getWeatherBtn.innerText = "取得中...";
 
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      status.innerText += "\n📍 位置情報取得成功";
-
+    navigator.geolocation.getCurrentPosition((pos) => {
       setTimeout(async () => {
         const lat = pos.coords.latitude;
         const lon = pos.coords.longitude;
@@ -43,19 +32,19 @@ window.addEventListener("DOMContentLoaded", () => {
             🌧 降水量: ${rain}mm<br>
             🌩 ゲリラ豪雨確率: ${chance}%
           `;
-          status.innerText += "\n✅ 天気取得完了！";
+          status.innerText = "✅ 天気取得完了！";
         } catch (e) {
           console.error(e);
-          status.innerText = "❌ API取得に失敗しました";
+          status.innerText = "❌ 天気取得に失敗しました";
         } finally {
-          getWeatherBtn.innerText = "天気を取得";
           getWeatherBtn.disabled = false;
+          getWeatherBtn.innerText = "天気を取得";
         }
       }, delay);
     }, () => {
       status.innerText = "❌ 位置情報の取得に失敗しました";
-      getWeatherBtn.innerText = "天気を取得";
       getWeatherBtn.disabled = false;
+      getWeatherBtn.innerText = "天気を取得";
     });
   });
 });
