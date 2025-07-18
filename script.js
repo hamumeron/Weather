@@ -6,11 +6,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
   getWeatherBtn.addEventListener("click", () => {
     const code = codeInput.value.trim();
-    const delay = (code === "ultrafast") ? 0 : 15000;
+    const delay = (code === FIXED_CODE || code === RANDOM_CODE) ? 0 : 15000;
 
     getWeatherBtn.disabled = true;
     getWeatherBtn.innerText = "取得中...";
-    status.innerText = `位置情報を取得しています…`;
+    status.innerText = `コード: ${code || "なし"} → ${delay / 1000}秒後に取得`;
 
     navigator.geolocation.getCurrentPosition((pos) => {
       setTimeout(async () => {
@@ -31,7 +31,7 @@ window.addEventListener("DOMContentLoaded", () => {
             🌧 降水量: ${rain}mm<br>
             🌩 ゲリラ豪雨確率: ${chance}%
           `;
-          status.innerText = "✅ 天気取得完了";
+          status.innerText = "✅ 天気取得完了！";
         } catch (err) {
           console.error(err);
           status.innerText = "❌ 天気取得失敗";
