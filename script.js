@@ -25,35 +25,47 @@ codeInput.addEventListener("input", () => {
   }
 });
 
-// 天気取得ボタン
-getWeatherBtn.addEventListener("click", () => {
-  navigator.geolocation.getCurrentPosition(async (pos) => {
-    status.innerText = `天気データを${delay / 1000}秒後に取得します...`;
-    setTimeout(async () => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
+  // 天気を取得
+  getWeatherBtn.addEventListener("click", () => {
+    getWeatherBtn.innerText = "取得中...";
+    getWeatherBtn.disabled = true; // ボタンを一時無効化
+    status.innerText = "📍 位置情報を取得中...";
 
-      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=ja`;
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      status.innerText = `🌤 天気情報を${delay / 1000}秒後に取得します...`;
 
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-        const rain = data.rain ? data.rain["1h"] || 0 : 0;
-        const chance = (rain * 10).toFixed(1);
+      setTimeout(async () => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
 
-        weatherDiv.innerHTML = `
-          🌡 気温: ${data.main.temp}℃<br>
-          ☁ 天気: ${data.weather[0].description}<br>
-          🌧 降水量: ${rain}mm<br>
-          🌩 ゲリラ豪雨確率: ${chance}%
-        `;
-        status.innerText = "✅ 取得完了！";
-      } catch (e) {
-        status.innerText = "❌ 取得に失敗しました";
-        weatherDiv.innerText = "";
-      }
-    }, delay);
-  }, () => {
-    status.innerText = "📍 位置情報が取得できませんでした";
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=ja`;
+
+        try {
+          const res = await fetch(url);
+          const data = await res.json();
+
+          const rain = data.rain?.["1h"] || 0;
+          const chance = (rain * 10).toFixed(1);
+
+          weatherDiv.innerHTML = `
+            🌡 気温: ${data.main.temp}℃<br>
+            ☁ 天気: ${data.weather[0].description}<br>
+            🌧 降水量: ${rain}mm<br>
+            🌩 ゲリラ豪雨確率: ${chance}%
+          `;
+          status.innerText = "✅ 天気取得完了！";
+        } catch (e) {
+          console.error(e);
+          status.innerText = "❌ API取得に失敗しました";
+          weatherDiv.innerHTML = "";
+        } finally {
+          getWeatherBtn.innerText = "天気を取得";
+          getWeatherBtn.disabled = false;
+        }
+      }, delay);
+    }, () => {
+      status.innerText = "❌ 位置情報が取得できませんでした";
+      getWeatherBtn.innerText = "天気を取得";
+      getWeatherBtn.disabled = false;
+    });
   });
-});
