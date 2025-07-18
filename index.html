@@ -7,12 +7,22 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <main class="container">
+  <main class="container fade-in">
     <h1>🌧 雨予測システム</h1>
-    <div id="weather">天気データを取得中...</div>
-    <input type="text" id="codeInput" placeholder="限定コードを入力"/>
+    <button id="openModal">限定コード入力</button>
+    <button id="getWeather">天気を取得</button>
     <p id="status"></p>
+    <div id="weather">まだ取得されていません。</div>
   </main>
+
+  <!-- モーダル（ポップアップ） -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>🔒 限定コードを入力</h2>
+      <input type="text" id="codeInput" placeholder="例: ultrafast"/>
+      <button id="closeModal">閉じる</button>
+    </div>
+  </div>
 
   <script src="config.js"></script>
   <script src="script.js"></script>
