@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>天気予測</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>天気予測サイト</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="container">
     <h1>🌦 雨予測サイト</h1>
     <button id="getWeather">天気を取得</button>
-    <p id="status">状態がここに表示されます</p>
-    <div id="weather">天気情報はまだありません</div>
+    <p id="status">ここに状態が表示されます</p>
+    <div id="weather">ここに天気が表示されます</div>
   </main>
 
-  <!-- 限定コード入力欄 -->
   <footer class="footer">
-    <label for="codeInput">🔑 限定コード:</label>
-    <input type="text" id="codeInput" placeholder="コードを入力" />
+    <label for="codeInput">限定コード：</label>
+    <input type="text" id="codeInput" placeholder="例: ultrafast">
   </footer>
 
   <script src="config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
-
