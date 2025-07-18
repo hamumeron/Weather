@@ -3,28 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>高精度・雨予測サイト</title>
+  <title>天気予測</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <main class="container fade-in">
-    <h1>🌧 雨予測システム</h1>
-    <button id="openModal">限定コード入力</button>
+  <main class="container">
+    <h1>🌦 雨予測サイト</h1>
     <button id="getWeather">天気を取得</button>
-    <p id="status"></p>
-    <div id="weather">まだ取得されていません。</div>
+    <p id="status">状態がここに表示されます</p>
+    <div id="weather">天気情報はまだありません</div>
   </main>
 
-  <!-- モーダル（ポップアップ） -->
-  <div id="modal" class="modal hidden">
-    <div class="modal-content">
-      <h2>🔒 限定コードを入力</h2>
-      <input type="text" id="codeInput" placeholder="例: ultrafast"/>
-      <button id="closeModal">閉じる</button>
-    </div>
-  </div>
+  <!-- 限定コード入力欄 -->
+  <footer class="footer">
+    <label for="codeInput">🔑 限定コード:</label>
+    <input type="text" id="codeInput" placeholder="コードを入力" />
+  </footer>
 
-  <!-- スクリプトを最後に -->
   <script src="config.js"></script>
   <script src="script.js"></script>
 </body>
