@@ -10,7 +10,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     getWeatherBtn.disabled = true;
     getWeatherBtn.innerText = "取得中...";
-    status.innerText = `位置情報を取得しています…（${delay / 1000}秒後に取得）`;
+    status.innerText = `位置情報を取得しています…`;
 
     navigator.geolocation.getCurrentPosition((pos) => {
       setTimeout(async () => {
