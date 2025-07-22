@@ -31,10 +31,10 @@ window.addEventListener("DOMContentLoaded", () => {
             🌧 降水量: ${rain}mm<br>
             🌩 ゲリラ豪雨確率: ${chance}%
           `;
-          status.innerText = "✅ 天気取得完了！";
+          status.innerText = "天気取得しました！";
         } catch (err) {
           console.error(err);
-          status.innerText = "❌ 天気取得失敗";
+          status.innerText = "取得できませんでした。原因については〇〇未定URLを確認してください";
         } finally {
           getWeatherBtn.disabled = false;
           getWeatherBtn.innerText = "天気を取得";
